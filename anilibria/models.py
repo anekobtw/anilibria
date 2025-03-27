@@ -69,7 +69,7 @@ class Anime:
     year: Optional[int] = None
     episodes: List[Episode] = field(default_factory=list)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         # If initialized from dict (backward compatibility)
         if isinstance(self.data, dict):
             self.id = self.data.get("id", 0)

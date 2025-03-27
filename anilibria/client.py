@@ -23,10 +23,6 @@ class AniLibriaClient:
         """Получить информацию о тайтле по его коду"""
         return Anime(self._rest_adapter.get(f"/title?code={anime_code}"))
 
-    def get_random(self) -> Anime:
-        """Возвращает случайный тайтл из базы"""
-        return Anime(self._rest_adapter.get("/title/random"))
-
     def all_years(self) -> List[int]:
         """Возвращает список годов выхода доступных тайтлов по возрастанию"""
         return self._rest_adapter.get("/years")
@@ -35,10 +31,19 @@ class AniLibriaClient:
         """Возвращает список всех жанров по алфавиту"""
         return self._rest_adapter.get("/genres")
 
+    def random(self) -> Anime:
+        """Возвращает случайный тайтл из базы"""
+        return Anime(self._rest_adapter.get("/title/random"))
+
     def updates(self, filter: UpdatesFilter = UpdatesFilter()) -> List[Anime]:
         """Список тайтлов, отсортированные по времени добавления нового релиза."""
         animes = self._rest_adapter.get(f"/title/updates?{filter}")
         return [Anime(anime) for anime in animes.get("list")]
+
+    def schedule(self, day: int) -> List[Anime]:
+        """Расписание выхода тайтлов, отсортированное по дням недели"""
+        animes = self._rest_adapter.get(f"/title/schedule?days={day}")
+        return [Anime(anime) for anime in animes[0].get("list")]
 
     def download(self, url: str, filename: str = None) -> None:
         """Скачивает эпизод по ссылке"""
