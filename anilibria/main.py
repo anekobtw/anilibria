@@ -91,6 +91,18 @@ class AniLibriaClient:
             raise Exception(response["error"]["message"])
         return Anime(response)
 
+    def get_random(self) -> Anime:
+        response = requests.get(self.BASE_URL + f"title/random").json()
+        return Anime(response)
+
+    def all_years(self) -> List[int]:
+        response = requests.get(self.BASE_URL + "years").json()
+        return response
+
+    def all_genres(self) -> List[str]:
+        response = requests.get(self.BASE_URL + "genres").json()
+        return response
+
     def download(self, url: str, filename: str = None) -> None:
         if filename:
             m3u8_To_MP4.multithread_download(m3u8_uri=url, mp4_file_name=filename)
@@ -106,5 +118,4 @@ class AniLibriaClient:
 
 if __name__ == "__main__":
     client = AniLibriaClient()
-    anime = client.search("рон камонохаши")[0]
-    print(client.search_code(anime.code).genres)
+    print(client.all_genres())
