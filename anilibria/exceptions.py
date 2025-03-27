@@ -4,3 +4,7 @@ class AniLibriaException(Exception):
 
 class SearchException(AniLibriaException):
     pass
+
+
+class AniLibriaRequestException(AniLibriaException):
+    pass

@@ -3,40 +3,32 @@ from typing import List
 import m3u8_To_MP4
 import requests
 
-from anilibria.exceptions import SearchException
 from anilibria.models import Anime, Filter
+from anilibria.rest_adapter import RestAdapter
 
 
 class AniLibriaClient:
-    BASE_URL = "https://api.anilibria.tv/v3/"
+    def __init__(self) -> None:
+        self._rest_adapter = RestAdapter()
 
-    def search(self, title: str, filter: Filter) -> list[Anime]:
-        response = requests.get(self.BASE_URL + f"title/search?search={title}" + str(filter)).json()
+    def search(self, title: str, filter: Filter = Filter()) -> list[Anime]:
+        response = self._rest_adapter.get(f"/title/search?search={title}" + str(filter))
         return [Anime(anime) for anime in response["list"]]
 
     def search_id(self, anime_id: int) -> Anime:
-        response = requests.get(self.BASE_URL + f"title?id={anime_id}").json()
-        if "error" in response:
-            raise SearchException(response["error"]["message"])
-        return Anime(response)
+        return Anime(self._rest_adapter.get(f"/title?id={anime_id}"))
 
     def search_code(self, anime_code: str) -> Anime:
-        response = requests.get(self.BASE_URL + f"title?code={anime_code}").json()
-        if "error" in response:
-            raise SearchException(response["error"]["message"])
-        return Anime(response)
+        return Anime(self._rest_adapter.get(f"/title?code={anime_code}"))
 
     def get_random(self) -> Anime:
-        response = requests.get(self.BASE_URL + f"title/random").json()
-        return Anime(response)
+        return Anime(self._rest_adapter.get("/title/random"))
 
     def all_years(self) -> List[int]:
-        response = requests.get(self.BASE_URL + "years").json()
-        return response
+        return self._rest_adapter.get("/years")
 
     def all_genres(self) -> List[str]:
-        response = requests.get(self.BASE_URL + "genres").json()
-        return response
+        return self._rest_adapter.get("/genres")
 
     def download(self, url: str, filename: str = None) -> None:
         if filename:
