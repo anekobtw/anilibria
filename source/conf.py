@@ -1,3 +1,6 @@
+import sys
+import os
+
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
@@ -14,7 +17,11 @@ release = '0.1.0'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = []
+extensions = [
+    'sphinx.ext.autodoc',	     # To generate autodocs
+    'sphinx.ext.mathjax',           # autodoc with maths
+    'sphinx.ext.napoleon'           # For auto-doc configuration
+]
 
 templates_path = ['_templates']
 exclude_patterns = []
@@ -26,3 +33,6 @@ exclude_patterns = []
 
 html_theme = 'alabaster'
 html_static_path = ['_static']
+
+sys.path.insert(0, os.path.abspath('../../'))
+sys.path.insert(0, os.path.abspath('.'))
