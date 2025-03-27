@@ -72,11 +72,42 @@ class Anime:
         self.episodes: List[Episode] = [Episode(ep) for ep in data.get("player", {}).get("list", []).values()]
 
 
+class Filter:
+    def __init__(
+            self,
+            years: List[int] = [],
+            types: List[str] = [],
+            season_codes: List[str] = [],
+            genres: List[str] = [],
+            page: int = 1
+        ) -> None:
+        
+        self.years = years or []
+        self.types = types or []
+        self.seasons = season_codes or []
+        self.genres = genres or []
+        self.page = page
+
+    def __str__(self) -> str:
+        params = []
+        if self.years:
+            params.append(f"years={','.join(map(str, self.years))}")
+        if self.types:
+            params.append(f"types={','.join(self.types)}")
+        if self.seasons:
+            params.append(f"seasons={','.join(self.seasons)}")
+        if self.genres:
+            params.append(f"genres={','.join(self.genres)}")
+        if self.page != 1:
+            params.append(f"page={self.page}")
+        return "&".join(params) if params else ""
+
+
 class AniLibriaClient:
     BASE_URL = "https://api.anilibria.tv/v3/"
 
-    def search(self, title: str) -> list[Anime]:
-        response = requests.get(self.BASE_URL + f"title/search?search={title}").json()
+    def search(self, title: str, filter: Filter) -> list[Anime]:
+        response = requests.get(self.BASE_URL + f"title/search?search={title}" + str(filter)).json()
         return [Anime(anime) for anime in response["list"]]
 
     def search_id(self, anime_id: int) -> Anime:
@@ -118,4 +149,5 @@ class AniLibriaClient:
 
 if __name__ == "__main__":
     client = AniLibriaClient()
-    print(client.all_genres())
+    for anime in client.search("тетрадь", filter=Filter(page=1)):
+        print(anime.name_ru)
