@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import ClassVar, Dict, List, Optional
+from typing import ClassVar, Dict, List, Optional, Union
 
 
 @dataclass
@@ -115,24 +115,47 @@ class Anime:
             self.episodes = [Episode(ep) for ep in self.data.get("player", {}).get("list", {}).values()]
 
 
-@dataclass
 class Filter:
+    def get_params(self) -> Dict[str, List[str]]:
+        return {}
+
+    def __str__(self) -> str:
+        params = []
+        for key, value in self.get_params().items():
+            if value:
+                params.append(f"{key}={value}")
+        return "&".join(params) if params else ""
+
+
+@dataclass
+class SearchFilter(Filter):
     years: List[int] = field(default_factory=list)
     types: List[str] = field(default_factory=list)
     seasons: List[str] = field(default_factory=list)
     genres: List[str] = field(default_factory=list)
     page: int = 1
 
-    def __str__(self) -> str:
-        params = []
-        if self.years:
-            params.append(f"years={','.join(map(str, self.years))}")
-        if self.types:
-            params.append(f"types={','.join(self.types)}")
-        if self.seasons:
-            params.append(f"seasons={','.join(self.seasons)}")
-        if self.genres:
-            params.append(f"genres={','.join(self.genres)}")
-        if self.page != 1:
-            params.append(f"page={self.page}")
-        return "&".join(params) if params else ""
+    def get_params(self) -> Dict[str, List[Union[int, str]]]:
+        params = {}
+        params["years"] = self.years
+        params["types"] = self.types
+        params["seasons"] = self.seasons
+        params["genres"] = self.genres
+        params["page"] = self.page
+        return params
+
+
+@dataclass
+class UpdatesFilter(Filter):
+    limit: Optional[int] = 5
+    since: Optional[int] = None
+    page: Optional[int] = 1
+    items_per_page: Optional[int] = None
+
+    def get_params(self) -> Dict[str, List[Union[int, str]]]:
+        params = {}
+        params["limit"] = self.limit
+        params["since"] = self.since
+        params["page"] = self.page
+        params["items_per_page"] = self.items_per_page
+        return params

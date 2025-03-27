@@ -1,10 +1,10 @@
 import logging
 
 from anilibria.client import AniLibriaClient
+from anilibria.models import SearchFilter, UpdatesFilter
 
-# forcing because urllib3 has a warning level
-logging.basicConfig(force=True, level=logging.DEBUG, format="%(asctime)s | %(name)s | %(message)s")
+logging.basicConfig(force=True, level=logging.DEBUG, format="%(levelname)s | %(asctime)s | %(name)s | %(message)s")
 
 client = AniLibriaClient()
-anime = client.get_random()
-print(f"Название рандомного аниме: {anime.name_ru}")
+for anime in client.updates(filter=UpdatesFilter(page=None, limit=None)):
+    print(anime.name_ru)

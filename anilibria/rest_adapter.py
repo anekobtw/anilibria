@@ -6,6 +6,9 @@ import requests
 
 from anilibria.exceptions import AniLibriaRequestException
 
+# forcing because urllib3 also forces
+logging.basicConfig(force=True, level=logging.INFO)
+
 
 class RestAdapter:
     def __init__(self, hostname: str = "https://api.anilibria.tv", ver: str = "v3", logger: logging.Logger = None) -> None:
