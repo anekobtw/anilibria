@@ -1,6 +1,6 @@
 [project]
 name = "anilibria"
-version = "0.1.0"
+version = "0.1.1"
 description = "Python API wrapper for AniLibria"
 authors = [
     {name = "anekobtw",email = "krolexonder@gmail.com"}
