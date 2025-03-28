@@ -6,10 +6,11 @@
 ![python](https://img.shields.io/badge/Python-3.9%2B-blue)
 
 
-This is a Python API wrapper for AniLibria, designed to interact with AniLibria's database and retrieve anime-related information.
+A Python API wrapper for AniLibria, designed to interact with AniLibria's database and retrieve anime-related information.
 
 **❗ It is not an official wrapper.** [Official AniLibria's REST API](https://github.com/anilibria/docs/blob/master/api_v3.md)
 
+*P.S. You can download animes with this library.*
 
 # Installing 🛠️
 **Python 3.9 or above is required.**
