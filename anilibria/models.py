@@ -133,7 +133,7 @@ class SearchFilter(Filter):
     types: List[str] = field(default_factory=list)
     seasons: List[str] = field(default_factory=list)
     genres: List[str] = field(default_factory=list)
-    page: int = 1
+    page: int = None
 
     def get_params(self) -> Dict[str, List[Union[int, str]]]:
         params = {}
@@ -147,9 +147,9 @@ class SearchFilter(Filter):
 
 @dataclass
 class UpdatesFilter(Filter):
-    limit: Optional[int] = 5
+    limit: Optional[int] = None
     since: Optional[int] = None
-    page: Optional[int] = 1
+    page: Optional[int] = None
     items_per_page: Optional[int] = None
 
     def get_params(self) -> Dict[str, List[Union[int, str]]]:
