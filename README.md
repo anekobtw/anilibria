@@ -1,6 +1,6 @@
 # `anilibria`
 
-![version](https://img.shields.io/badge/Project_version-0.1.3-blue)
+![version](https://img.shields.io/badge/Project_version-0.1.4-blue)
 ![licence](https://img.shields.io/badge/License-MIT-green)
 [![pypi](https://img.shields.io/badge/anilibria_on_PyPi-blue)](https://pypi.org/project/anilibria)
 ![python](https://img.shields.io/badge/Python-3.9%2B-blue)

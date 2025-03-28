@@ -69,6 +69,8 @@ class Anime:
     year: Optional[int] = None
     episodes: List[Episode] = field(default_factory=list)
 
+    BASE_HOST = "https://anilibria.top"
+
     def __post_init__(self) -> None:
         # If initialized from dict (backward compatibility)
         if isinstance(self.data, dict):
@@ -89,9 +91,9 @@ class Anime:
             self.status_code = status.get("code")
 
             posters = self.data.get("posters", {})
-            self.poster_small_url = posters.get("small", {}).get("url", "")
-            self.poster_medium_url = posters.get("medium", {}).get("url", "")
-            self.poster_original_url = posters.get("original", {}).get("url", "")
+            self.poster_small_url = self.BASE_HOST + posters.get("small", {}).get("url", "")
+            self.poster_medium_url = self.BASE_HOST + posters.get("medium", {}).get("url", "")
+            self.poster_original_url = self.BASE_HOST + posters.get("original", {}).get("url", "")
 
             self.updated = self.data.get("updated", 0)
             self.last_change = self.data.get("last_change", 0)
@@ -113,7 +115,6 @@ class Anime:
             self.year = season.get("year")
 
             self.episodes = [Episode(ep) for ep in self.data.get("player", {}).get("list", {}).values()]
-
 
 class Filter:
     def get_params(self) -> Dict[str, List[str]]:
