@@ -23,10 +23,6 @@ class AniLibriaClient:
         """Получить информацию о тайтле по его коду"""
         return Anime(self._rest_adapter.get(f"/title?code={anime_code}"))
 
-    def search_franchise(self, franchise_id: str) -> list[Anime]:
-        animes = self._rest_adapter.get(f"/title/franchises?id={franchise_id}").get("releases")
-        return [self.search_id(anime_info.get("id")) for anime_info in animes]
-
     def all_years(self) -> List[int]:
         """Возвращает список годов выхода доступных тайтлов по возрастанию"""
         return self._rest_adapter.get("/years")

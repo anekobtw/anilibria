@@ -27,11 +27,11 @@ class RestAdapter:
 
         except requests.exceptions.RequestException as e:
             self._logger.error("Request failed: %s - %s", type(e).__name__, str(e))
-            raise AniLibriaRequestException("Request failed") from e
+            raise AniLibriaRequestException(f"Request failed: {e}")
 
         except (ValueError, JSONDecodeError) as e:
             self._logger.error("JSON decode failed: %s - %s", type(e).__name__, str(e))
-            raise AniLibriaRequestException("Bad JSON in response") from e
+            raise AniLibriaRequestException(f"Bad JSON in response: {e}")
 
     def get(self, endpoint: str) -> Dict:
         return self._do(http_method="GET", endpoint=endpoint)
