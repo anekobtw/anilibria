@@ -26,6 +26,9 @@ You can add `anilibria` as a dependency with the following command
 $ poetry add anilibria
 ```
 
+## Documentation 📃
+You can find docs [here](https://github.com/anekobtw/anilibria/blob/main/docs.md).
+
 ## Contributing 🤝
 We welcome contributions! Please read our [Code of Conduct](https://github.com/anekobtw/anilibria/blob/main/CODE_OF_CONDUCT.md)
 
