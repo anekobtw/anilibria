@@ -10,9 +10,12 @@ class AniLibriaClient:
     def __init__(self) -> None:
         self._rest_adapter = RestAdapter()
 
-    def search(self, title: str, filter: SearchFilter = SearchFilter()) -> list[Anime]:
+    def search(self, title: str = None, filter: SearchFilter = SearchFilter()) -> list[Anime]:
         """Возвращает список найденных по фильтрам тайтлов"""
-        response = self._rest_adapter.get(f"/title/search?search={title}?" + str(filter))
+        endpoint = "/title/search?"
+        if title:
+            endpoint += f"search={title}"
+        response = self._rest_adapter.get(endpoint + str(filter))
         return [Anime(anime) for anime in response["list"]]
 
     def search_id(self, anime_id: int) -> Anime:

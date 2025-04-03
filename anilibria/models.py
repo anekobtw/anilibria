@@ -135,14 +135,16 @@ class SearchFilter(Filter):
     seasons: List[str] = field(default_factory=list)
     genres: List[str] = field(default_factory=list)
     page: int = None
+    limit: int = None
 
     def get_params(self) -> Dict[str, List[Union[int, str]]]:
         params = {}
-        params["years"] = self.years
-        params["types"] = self.types
-        params["seasons"] = self.seasons
-        params["genres"] = self.genres
+        params["years"] = ",".join(self.years)
+        params["types"] = ",".join(self.types)
+        params["seasons"] = ",".join(self.seasons)
+        params["genres"] = ",".join(self.genres)
         params["page"] = self.page
+        params["limit"] = self.limit
         return params
 
 
