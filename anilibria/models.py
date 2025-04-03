@@ -139,7 +139,7 @@ class SearchFilter(Filter):
 
     def get_params(self) -> Dict[str, List[Union[int, str]]]:
         params = {}
-        params["years"] = ",".join(self.years)
+        params["year"] = ",".join(map(str, self.years))
         params["types"] = ",".join(self.types)
         params["seasons"] = ",".join(self.seasons)
         params["genres"] = ",".join(self.genres)
