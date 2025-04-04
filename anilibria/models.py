@@ -114,7 +114,14 @@ class Anime:
             self.season = season.get("string")
             self.year = season.get("year")
 
-            self.episodes = [Episode(ep) for ep in self.data.get("player", {}).get("list", {}).values()]
+            self.episodes = [
+                            Episode(ep)
+                            for ep in (
+                                self.data.get("player", {}).get("list", {})
+                                if isinstance(self.data.get("player", {}).get("list", {}), list)
+                                else self.data.get("player", {}).get("list", {}).values()
+                            )
+                        ]
 
 class Filter:
     def get_params(self) -> Dict[str, List[str]]:
